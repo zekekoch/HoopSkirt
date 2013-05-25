@@ -27,9 +27,9 @@ Animation anims[11] =
 // Setup/define the Led controller with data pin 11, clock pin 13, and latch pin 10
 // this will trigger use of the hardware SPI support on the arduino uno
 //LPD8806Controller<11, 13, 10> LED;
-WS2811Controller800Mhz<15> LED;
-WS2811Controller800Mhz<17> LED1;
-WS2811Controller800Mhz<19> LED2;
+WS2811Controller800Mhz<10> LED;
+WS2811Controller800Mhz<7> LED1;
+WS2811Controller800Mhz<4> LED2;
 
 String inputString = "";         // a string to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
@@ -60,7 +60,7 @@ void setup()
     
 
     anims[0].solid(0,95,255, 1);
-    anims[0].setColor(0,0,16);
+    anims[0].setColor(16,0,16); // 16 for real
   	anims[3].chase(0,95,255, 6);
     anims[3].setColor(255,0,0);
 

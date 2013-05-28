@@ -1,127 +1,120 @@
 #include "FastSPI_LED2.h"
-#include "Animation.h"
 #include "Segment.h"
+#include "Animation.h"
 #include "AnimationFrame.h"
 
 const byte ledCount = 128;
 const int strandCount = 7;
 const int animationCount = 7;
 
-Segment segments[49] =
+/*
+const int songFrameCount = 9;
+AnimationFrame songFrames[songFrameCount]
 {
-    /*** Ring Top ***/
-    /*
-    Segment(RingTopBackCenter,      0b00000000000000000000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopBackRightInner,  0b11111111000000000000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopBackRightOuter,  0b00000000111111100000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopLeft,            0b00000000000000011111111111111111,0b11110000000000000000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopFrontLeftOuter,  0b00000000000000000000000000000000,0b00001111111000000000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopFrontLeftInner,  0b00000000000000000000000000000000,0b00000000000111110000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopFrontRightInner, 0b00000000000000000000000000000000,0b00000000000000011111100000000000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopFrontRightOuter, 0b00000000000000000000000000000000,0b00000000000000000000011111110000,0b00000000000000000000000000000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopRight,           0b00000000000000000000000000000000,0b00000000000000000000000000001111,0b11111111111111110000000000000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopBackLeftOuter,   0b00000000000000000000000000000000,0b00000000000000000000000000000000,0b00000000000000011111111100000000,0b00000000000000000000000000000000,95, RingTop),
-    Segment(RingTopBackLeftInner,   0b00000000000000000000000000000000,0b00000000000000000000000000000000,0b00000000000000000000000111111110,0b00000000000000000000000000000000,95, RingTop),
-    */
-    Segment(RingTopBackCenter,      "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopBackRightInner,  "11111111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopBackRightOuter,  "00000000111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopLeft,            "00000000000000011111111111111111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopFrontLeftOuter,  "00000000000000000000000000000000000011111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopFrontLeftInner,  "00000000000000000000000000000000000000000001111100000000000000000000000000000000000000000000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopFrontRightInner, "00000000000000000000000000000000000000000000000111111000000000000000000000000000000000000000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopFrontRightOuter, "00000000000000000000000000000000000000000000000000000111111100000000000000000000000000000000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopRight,           "00000000000000000000000000000000000000000000000000000000000011111111111111111111000000000000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopBackLeftOuter,   "00000000000000000000000000000000000000000000000000000000000000000000000000000001111111110000000000000000000000000000000000000000", RingTop),
-    Segment(RingTopBackLeftInner,   "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111000000000000000000000000000000000", RingTop),
+    AnimationFrame((long)0, (SegmentEnum)(VTopLeft | VTopRight), BitFadeAnimation, 55),
 
-    /*** Ring Middle ***/
-    Segment(RingMiddleBackCenter,       "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingMiddle),
-    Segment(RingMiddleBackRightInner,   "11111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingMiddle),
-    Segment(RingMiddleBackRightOuter,   "00001111111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingMiddle),
-    Segment(RingMiddleLeft,             "00000000000001111111111111111111111111111111100000000000000000000000000000000000000000000000000000000", RingMiddle),
-    Segment(RingMiddleFrontLeftInner,   "00000000000000000000000000000000000000000000111111100000000000000000000000000000000000000000000000000", RingMiddle),
-    Segment(RingMiddleFrontRightInner,  "00000000000000000000000000000000000000000000000000111111100000000000000000000000000000000000000000000", RingMiddle),
-    Segment(RingMiddleRight,            "00000000000000000000000000000000000000000000000000000000011111111111111111111111111111111000000000000", RingMiddle),
-    Segment(RingMiddleBackLeftOuter,    "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111110000", RingMiddle),
-    Segment(RingMiddleBackLeftInner,    "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111", RingMiddle),
+    AnimationFrame(1917, (SegmentEnum)(RingTopBackRightInner | RingTopBackLeftInner), BitFadeAnimation, 55),
+    AnimationFrame(0, VMiddleBackLeftLower | VMiddleBackLeftMiddle | VMiddleBackRightMiddle | VMiddleBackRightLower, BitFadeAnimation, 55),
 
-    /*** Ring Bottom ***/
-    Segment(RingBottomBackCenter,       "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingBottom),
-    Segment(RingBottomBackRightInner,   "1111111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", RingBottom),
-    Segment(RingBottomLeft,             "0000000000111111111111111111111111111111111111111111100000000000000000000000000000000000000000000000000000", RingBottom),
-    Segment(RingBottomRight,            "0000000000000000000000000000000000000000000000000000011111111111111111111111111111111111111111110000000000", RingBottom),
-    Segment(RingBottomBackLeftInner,    "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111111", RingBottom),
-        
-    /*** VTop ***/
-    // V Top (Center, Left, Right)
-    Segment(VTopBackCenter,             "000000000000000000000000000000000000000000000000000000000000000000000000000000000", VTop),
-    Segment(VTopRight,                  "111111111111111111111111111111111111111110000000000000000000000000000000000000000", VTop),
-    Segment(VTopLeft,                   "000000000000000000000000000000000000000001111111111111111111111111111111111111111", VTop),
-    
-    /*** VMiddle ***/
-    Segment(VMiddleBackCenter,          "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", VMiddle),
-    Segment(VMiddleBackLeftLower,       "1111111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", VMiddle),
-    Segment(VMiddleBackLeftMiddle,      "0000000111111100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", VMiddle),
-    Segment(VMiddleBackLeftUpper,       "0000000000000011111111111111111111111111111111111000000000000000000000000000000000000000000000000000000000000000", VMiddle),
-    Segment(VMiddleFrontRightMiddle,    "0000000000000000000000000000000000000000000000000111111100000000000000000000000000000000000000000000000000000000", VMiddle),
-    Segment(VMiddleFrontLeftMiddle,     "0000000000000000000000000000000000000000000000000000000011111110000000000000000000000000000000000000000000000000", VMiddle),
-    Segment(VMiddleBackRightUpper,      "0000000000000000000000000000000000000000000000000000000000000001111111111111111111111111111111111110000000000000", VMiddle),
-    Segment(VMiddleBackRightMiddle,     "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001111111000000", VMiddle),
-    Segment(VMiddleBackRightLower,      "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000111111", VMiddle),
+    AnimationFrame(9250, VTopLeft | VTopRight, BitFadeAnimation, 55),
 
-    /*** V Bottom ***/
-    Segment(VBottomBackCenter,          "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", VBottom),
-    Segment(VBottomBackRightLower,      "1111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", VBottom),
-    Segment(VBottomBackRightMiddle,     "0000011111110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000", VBottom),
-    Segment(VBottomBackRightTop,        "0000000000001111111111111111111111100000000000000000000000000000000000000000000000000000000000000000000000000000", VBottom),
-    Segment(VBottomFrontLeftMiddle,     "0000000000000000000000000000000000111111110000000000000000000000000000000000000000000000000000000000000000000000", VBottom),
-    Segment(VBottomFrontLeftLower,      "0000000000000000000000000000000000000000001111111110000000000000000000000000000000000000000000000000000000000000", VBottom),
-    Segment(VBottomFrontRightLower,     "0000000000000000000000000000000000000000000000000001111111100000000000000000000000000000000000000000000000000000", VBottom),
-    Segment(VBottomFrontRightMiddle,    "0000000000000000000000000000000000000000000000000000000000011111111000000000000000000000000000000000000000000000", VBottom),
-    Segment(VBottomBackLeftTop,         "0000000000000000000000000000000000000000000000000000000000000000000111111111111111111111100000000000000000000000", VBottom),
-    Segment(VBottomBackLeftMiddle,      "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111100000000000000000", VBottom),
-    Segment(VBottomBackLeftLower,       "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000011111111111111111", VBottom),
-    
-    //TODO: add the vertical strand to this
+    AnimationFrame(16375, RingTopBackRightInner | RingTopBackLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(0, VMiddleBackLeftLower | VMiddleBackLeftMiddle | VMiddleBackRightMiddle | VMiddleBackRightLower, BitFadeAnimation, 55),
+
+    AnimationFrame(23333, VTopLeft | VTopRight, BitFadeAnimation, 55),
+
+    AnimationFrame(30417, RingTopBackRightInner | RingTopBackLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(0, VMiddleBackLeftLower | VMiddleBackLeftMiddle | VMiddleBackRightMiddle | VMiddleBackRightLower, BitFadeAnimation, 55),
+
 };
+*/
 
-const int FrameCount = 53;
-AnimationFrame frames[FrameCount] =
+const int frameCount = 50;
+AnimationFrame frames[frameCount] =
 {
 
+    AnimationFrame(1250, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingTopBackRightInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackRightInner, BitFadeAnimation, 55),
+    
+    AnimationFrame(2333, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingTopBackLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackLeftInner, BitFadeAnimation, 55),
+
+    AnimationFrame(3417, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingTopBackRightOuter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackRightOuter, BitFadeAnimation, 55),
+
+    AnimationFrame(4500, RingTopBackLeftOuter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackLeftOuter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+
+    AnimationFrame(5625, RingTopBackRightInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackRightInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+    
+    AnimationFrame(6708, RingTopBackLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+    
+    AnimationFrame(7792, RingTopBackRightOuter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackRightOuter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+    
+    AnimationFrame(8875, RingTopBackRightInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackRightInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+    
+    AnimationFrame(9950, RingTopBackLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+
+    AnimationFrame(11083, RingTopBackRightInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackRightInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+    
+};
+/*
+    AnimationFrame(2000, RingMiddleLeft, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleFrontLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleFrontRightInner, BitFadeAnimation, 55),
+    AnimationFrame(0, RingMiddleFrontLeftInner, BitFadeAnimation, 55),
+
     AnimationFrame(0, RingTopLeft, BitFadeAnimation, 55),
     AnimationFrame(0, RingTopFrontLeftOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopFrontLeftInner, BitFadeAnimation, 55),
     AnimationFrame(0, RingTopFrontRightInner, BitFadeAnimation, 55),
     AnimationFrame(0, RingTopFrontRightOuter, BitFadeAnimation, 55),
     AnimationFrame(0, RingTopRight, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackLeftOuter, BitFadeAnimation, 55),
     AnimationFrame(0, RingTopBackLeftInner, BitFadeAnimation, 55),
     AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
-    
-    AnimationFrame(1000, RingMiddleBackCenter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackRightOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleLeft, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleFrontLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleFrontRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleFrontRightInner, BitFadeAnimation, 55),
+
     AnimationFrame(0, RingMiddleRight, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackLeftOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackLeftInner, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     
-    AnimationFrame(1500, RingBottomBackCenter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingBottomBackRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingBottomLeft, BitFadeAnimation, 55),
-    AnimationFrame(0, RingBottomRight, BitFadeAnimation, 55),
-    AnimationFrame(0, RingBottomBackLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(2500, RingBottomBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
     
-    AnimationFrame(2000, VTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(2800, VTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, VTopRight, BitFadeAnimation, 55),
     AnimationFrame(0, VTopLeft, BitFadeAnimation, 55),
     AnimationFrame(0, VTopBackCenter, BitFadeAnimation, 55),
@@ -148,10 +141,8 @@ AnimationFrame frames[FrameCount] =
     AnimationFrame(0, VBottomBackLeftMiddle, BitFadeAnimation, 55),
     AnimationFrame(0, VBottomBackLeftLower, BitFadeAnimation, 55),
     AnimationFrame(0, VBottomBackCenter, BitFadeAnimation, 55),
-    
-    
-    
 };
+*/
 
 // this is incredibly wasteful because I'm creating a square array and many
 // of my strands are much shorter than ledCount, but this makes it easier for
@@ -235,19 +226,20 @@ int getLedFromSerial() {
     }
 }
 
-int currentSequence = 0;
+int currentStep = 0;
 int nextStepInSequence = 0;
 
 long currentSequenceStartTime = 0;
 long nextSequenceStartTime = 0;
+long sequenceInterval = 0;
 
-long sequenceInterval = 10;
-
+bool doAnimation = false;
 
 void loop()
 {
     if (Serial.available())
     {
+        /*
         lastInputLed = getLedFromSerial();
         
         //
@@ -262,37 +254,55 @@ void loop()
         Serial.println(segments[8].toString());
         Segment s =segments[2] | segments[8];
         Serial.println(s.toString());
-
+        */
+        
+        // flush the serial buffer
+        while(Serial.available())
+              Serial.read();
+        Serial.println("restarting");
+        currentStep = 0;
+        currentSequenceStartTime = millis();
+        sequenceInterval = 0;
+        doAnimation = true;
+        
     }
+    
+    if (doAnimation == false)
+        return;
     
     // if the current time is after the start of the next sequence
     // then I need to play all of the sequences that have the same time
     if (millis() > currentSequenceStartTime + sequenceInterval)
     {
-        AnimationFrame f = frames[currentSequence];
+        Serial.print(millis()) - currentSequenceStartTime;Serial.print(": doing a loop ");Serial.print(currentStep);Serial.print(":");Serial.println(sequenceInterval);
+        AnimationFrame f = frames[currentStep];
 
-        if (0 == currentSequence)
-            currentSequenceStartTime = millis();
+        //if (0 == currentStep)
+        //    currentSequenceStartTime = millis();
         
         sequenceInterval = f.timeCode;
+        Strand s = f.segment.strand;
         
-        Strand s = segments[f.segment].strand;
         switch(f.animation)
         {
             case BitFadeAnimation:
             //    anims[s].clear();
-                anims[s].bitFade(segments[f.segment], 16, 1);
-                anims[s].setColor(4,4,0);
+                anims[s].bitFade(f.segment, 16, 1);
+                anims[s].setColor(4,0,4);
                 break;
             case NoAnimation:
             //    anims[s].clear();
                 break;
         }
         
-        currentSequence++;
-        if (FrameCount < currentSequence)
+        currentStep++;
+        if (currentStep > frameCount)
         {
-            currentSequence = 0;
+            Serial.println("done with a loop");
+            currentStep = 0;
+            currentSequenceStartTime = millis();
+            sequenceInterval = 0;
+            doAnimation = false;
         }
     }
     
@@ -301,6 +311,7 @@ void loop()
     {
         anims[i].play();
     }
+    
     
     if(lastInputLed > 0)
     {
@@ -311,16 +322,18 @@ void loop()
             leds[i][lastInputLed].b=15;
         }
     }
-	
-	LED1.showRGB((byte*)leds[0], 115);
-	LED2.showRGB((byte*)leds[1], 115);
-	LED3.showRGB((byte*)leds[2], 115);
-	LED4.showRGB((byte*)leds[3], 115);
-	LED5.showRGB((byte*)leds[4], 115);
-	LED6.showRGB((byte*)leds[5], 115);
-	LED7.showRGB((byte*)leds[6], 115);
-	
-	// delay(delayTime);
+    updateLeds();
+}
+
+void updateLeds()
+{
+	LED1.showRGB((byte*)leds[0], ledCount);
+	LED2.showRGB((byte*)leds[1], ledCount);
+	LED3.showRGB((byte*)leds[2], ledCount);
+	LED4.showRGB((byte*)leds[3], ledCount);
+	LED5.showRGB((byte*)leds[4], ledCount);
+	LED6.showRGB((byte*)leds[5], ledCount);
+	LED7.showRGB((byte*)leds[6], ledCount);    
 }
 
 /*

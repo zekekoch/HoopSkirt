@@ -119,7 +119,7 @@ public:
         animation = anim;
         color = c;
     }
-
+    
 };
 
 #endif

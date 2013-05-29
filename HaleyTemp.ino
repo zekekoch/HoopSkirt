@@ -7,144 +7,69 @@ const byte ledCount = 128;
 const int strandCount = 7;
 const int animationCount = 7;
 
-/*
-const int songFrameCount = 9;
-AnimationFrame songFrames[songFrameCount]
-{
-    AnimationFrame((long)0, (SegmentEnum)(VTopLeft | VTopRight), BitFadeAnimation, 55),
+const int frameCount = 44;
 
-    AnimationFrame(1917, (SegmentEnum)(RingTopBackRightInner | RingTopBackLeftInner), BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackLeftLower | VMiddleBackLeftMiddle | VMiddleBackRightMiddle | VMiddleBackRightLower, BitFadeAnimation, 55),
-
-    AnimationFrame(9250, VTopLeft | VTopRight, BitFadeAnimation, 55),
-
-    AnimationFrame(16375, RingTopBackRightInner | RingTopBackLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackLeftLower | VMiddleBackLeftMiddle | VMiddleBackRightMiddle | VMiddleBackRightLower, BitFadeAnimation, 55),
-
-    AnimationFrame(23333, VTopLeft | VTopRight, BitFadeAnimation, 55),
-
-    AnimationFrame(30417, RingTopBackRightInner | RingTopBackLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackLeftLower | VMiddleBackLeftMiddle | VMiddleBackRightMiddle | VMiddleBackRightLower, BitFadeAnimation, 55),
-
-};
-*/
-
-const int frameCount = 50;
 AnimationFrame frames[frameCount] =
 {
 
     AnimationFrame(1250, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackRightInner, BitFadeAnimation, 55),
+    AnimationFrame(0, segments[RingTopBackRightInner] |segments[RingTopBackLeftInner] , BitFadeAnimation,55),
+    AnimationFrame(0, segments[RingMiddleBackLeftInner] |segments[RingMiddleBackRightInner] , BitFadeAnimation,55),
+    AnimationFrame(0, segments[VMiddleBackLeftMiddle] |segments[VMiddleBackRightMiddle] | segments[VMiddleBackLeftLower] | segments[VMiddleBackRightLower], BitFadeAnimation,55),
+
     
     AnimationFrame(2333, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackLeftInner, BitFadeAnimation, 55),
+    AnimationFrame(0, segments[VBottomBackRightLower] |segments[VBottomBackLeftLower] | segments[VBottomBackLeftMiddle] | segments[VBottomBackRightMiddle], BitFadeAnimation,55),
+
 
     AnimationFrame(3417, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackRightOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackRightOuter, BitFadeAnimation, 55),
+    AnimationFrame(0, segments[RingTopBackRightInner] |segments[RingTopBackLeftInner] , BitFadeAnimation,55),
+    AnimationFrame(0, segments[RingMiddleBackLeftInner] |segments[RingMiddleBackRightInner] , BitFadeAnimation,55),
+    AnimationFrame(0, segments[VMiddleBackLeftMiddle] |segments[VMiddleBackRightMiddle] | segments[VMiddleBackLeftLower] | segments[VMiddleBackRightLower], BitFadeAnimation,55),
 
-    AnimationFrame(4500, RingTopBackLeftOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackLeftOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(4500, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, segments[VBottomBackRightLower] |segments[VBottomBackLeftLower] | segments[VBottomBackLeftMiddle] | segments[VBottomBackRightMiddle], BitFadeAnimation,55),
 
-    AnimationFrame(5625, RingTopBackRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(5625, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, segments[RingTopBackRightInner] |segments[RingTopBackLeftInner] , BitFadeAnimation,55),
+    AnimationFrame(0, segments[RingMiddleBackLeftInner] |segments[RingMiddleBackRightInner] , BitFadeAnimation,55),
+    AnimationFrame(0, segments[VMiddleBackLeftMiddle] |segments[VMiddleBackRightMiddle] | segments[VMiddleBackLeftLower] | segments[VMiddleBackRightLower], BitFadeAnimation,55),
     
-    AnimationFrame(6708, RingTopBackLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(6708, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, segments[VBottomBackRightLower] |segments[VBottomBackLeftLower] | segments[VBottomBackLeftMiddle] | segments[VBottomBackRightMiddle], BitFadeAnimation,55),
     
-    AnimationFrame(7792, RingTopBackRightOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackRightOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(7792, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
-    
-    AnimationFrame(8875, RingTopBackRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, segments[VTopLeft] |segments[VTopRight] , BitFadeAnimation,55),
+
+    AnimationFrame(8875, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
-    
-    AnimationFrame(9950, RingTopBackLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(0, segments[VMiddleBackLeftUpper] |segments[VMiddleBackRightUpper] , BitFadeAnimation,55),
+
+    AnimationFrame(9950, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
 
-    AnimationFrame(11083, RingTopBackRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
+    AnimationFrame(11083, RingTopBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
     AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
-    
 };
-/*
-    AnimationFrame(2000, RingMiddleLeft, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleFrontLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleFrontRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleFrontLeftInner, BitFadeAnimation, 55),
 
-    AnimationFrame(0, RingTopLeft, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopFrontLeftOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopFrontRightInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopFrontRightOuter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopRight, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackLeftInner, BitFadeAnimation, 55),
-    AnimationFrame(0, RingTopBackCenter, BitFadeAnimation, 55),
-
-    AnimationFrame(0, RingMiddleRight, BitFadeAnimation, 55),
-    AnimationFrame(0, RingMiddleBackCenter, BitFadeAnimation, 55),
-    
-    AnimationFrame(2500, RingBottomBackCenter, BitFadeAnimation, 55),
-    AnimationFrame(0, RingBottomBackCenter, BitFadeAnimation, 55),
-    
-    AnimationFrame(2800, VTopBackCenter, BitFadeAnimation, 55),
-    AnimationFrame(0, VTopRight, BitFadeAnimation, 55),
-    AnimationFrame(0, VTopLeft, BitFadeAnimation, 55),
-    AnimationFrame(0, VTopBackCenter, BitFadeAnimation, 55),
-    
-    AnimationFrame(3000, VMiddleBackCenter, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackLeftLower, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackLeftMiddle, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackLeftUpper, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleFrontRightMiddle, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleFrontLeftMiddle, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackRightUpper, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackRightMiddle, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackRightLower, BitFadeAnimation, 55),
-    AnimationFrame(0, VMiddleBackCenter, BitFadeAnimation, 55),
-    
-    AnimationFrame(4000, VBottomBackRightLower, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomBackRightMiddle, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomBackRightTop, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomFrontLeftMiddle, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomFrontLeftLower, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomFrontRightLower, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomFrontRightMiddle, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomBackLeftTop, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomBackLeftMiddle, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomBackLeftLower, BitFadeAnimation, 55),
-    AnimationFrame(0, VBottomBackCenter, BitFadeAnimation, 55),
-};
-*/
-
-// this is incredibly wasteful because I'm creating a square array and many
+// this is wasteful because I'm creating a square array and many
 // of my strands are much shorter than ledCount, but this makes it easier for
 // me to initialize and for now I have the space to spare.
 // TODO: change this to a ragged array.
@@ -179,6 +104,10 @@ int lastInputLed = 0;
 long currentTime;
 int currentFrame = 0;
 
+long showRGBCounter = 0;
+long timeSpentInShowRGB = 0;
+
+
 void setup()
 {
 	Serial.begin(9600);
@@ -192,19 +121,7 @@ void setup()
     
     currentTime = millis();
     
-    // run the memory test function and print the results to the serial port
-    //int result = memoryTest();
-    //Serial.print("Memory test results: ");
-    //Serial.print(result,DEC);
-    //Serial.print(" bytes free");
-    
 	pinMode(A0, INPUT);
-
-    /*
-    
-    anims[VBottom].bitFade(segments[VBottomBackLeftLower] | segments[VBottomBackLeftLower], 16,1);
-    anims[VBottom].setColor(0,2,0);
-    */
 }
 
 int getLedFromSerial() {
@@ -267,14 +184,11 @@ void loop()
         
     }
     
-    if (doAnimation == false)
-        return;
-    
     // if the current time is after the start of the next sequence
     // then I need to play all of the sequences that have the same time
-    if (millis() > currentSequenceStartTime + sequenceInterval)
+    if (doAnimation == true && millis() > currentSequenceStartTime + sequenceInterval)
     {
-        Serial.print(millis()) - currentSequenceStartTime;Serial.print(": doing a loop ");Serial.print(currentStep);Serial.print(":");Serial.println(sequenceInterval);
+        Serial.print(millis() - currentSequenceStartTime);Serial.print("ms: ");Serial.print(currentStep);Serial.print(":");Serial.println(sequenceInterval);
         AnimationFrame f = frames[currentStep];
 
         //if (0 == currentStep)
@@ -286,12 +200,12 @@ void loop()
         switch(f.animation)
         {
             case BitFadeAnimation:
-            //    anims[s].clear();
+                anims[s].clear();
                 anims[s].bitFade(f.segment, 16, 1);
                 anims[s].setColor(4,0,4);
                 break;
             case NoAnimation:
-            //    anims[s].clear();
+                anims[s].clear();
                 break;
         }
         
@@ -325,6 +239,7 @@ void loop()
     updateLeds();
 }
 
+
 void updateLeds()
 {
 	LED1.showRGB((byte*)leds[0], ledCount);
@@ -333,7 +248,12 @@ void updateLeds()
 	LED4.showRGB((byte*)leds[3], ledCount);
 	LED5.showRGB((byte*)leds[4], ledCount);
 	LED6.showRGB((byte*)leds[5], ledCount);
-	LED7.showRGB((byte*)leds[6], ledCount);    
+	LED7.showRGB((byte*)leds[6], ledCount);
+    
+    // showRGB pauses the timer that delay uses so this is to compensate
+    //timeSpentInShowRGB += strandCount * (ledCount * 3 * 1.25)/1000;
+    //Serial.print("time spent in showrgb ");Serial.println(timeSpentInShowRGB);
+    
 }
 
 /*

@@ -89,13 +89,13 @@ Animation anims[animationCount] =
 // Setup/define the Led controller with data pin 11, clock pin 13, and latch pin 10
 // this will trigger use of the hardware SPI support on the arduino uno
 //LPD8806Controller<11, 13, 10> LED;
-WS2811Controller800Mhz<12> LED1;
-WS2811Controller800Mhz<9> LED2;
-WS2811Controller800Mhz<6> LED3;
-WS2811Controller800Mhz<3> LED4;
-WS2811Controller800Mhz<13> LED5;
-WS2811Controller800Mhz<16> LED6;
-WS2811Controller800Mhz<19> LED7;
+WS2811Controller800Mhz<12> LED1;    //RingTop
+WS2811Controller800Mhz<9> LED2;     //RingMiddle
+WS2811Controller800Mhz<6> LED3;     //RingMiddle
+WS2811Controller800Mhz<3> LED4;     //VTop
+WS2811Controller800Mhz<13> LED5;    //VMiddle
+WS2811Controller800Mhz<16> LED6;    //VBottom
+WS2811Controller800Mhz<19> LED7;    //Vertical
 
 String inputString = "";         // a string to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
@@ -110,7 +110,7 @@ long timeSpentInShowRGB = 0;
 
 void setup()
 {
-	Serial.begin(9600);
+	Serial.begin(38400);
 	LED1.init();
 	LED2.init();
 	LED3.init();
@@ -186,7 +186,7 @@ void loop()
     
     // if the current time is after the start of the next sequence
     // then I need to play all of the sequences that have the same time
-    if (doAnimation == true && millis() > currentSequenceStartTime + sequenceInterval)
+    if (doAnimation == true && ((millis()*4) > currentSequenceStartTime + sequenceInterval))
     {
         Serial.print(millis() - currentSequenceStartTime);Serial.print("ms: ");Serial.print(currentStep);Serial.print(":");Serial.println(sequenceInterval);
         AnimationFrame f = frames[currentStep];
@@ -200,9 +200,8 @@ void loop()
         switch(f.animation)
         {
             case BitFadeAnimation:
-                anims[s].clear();
                 anims[s].bitFade(f.segment, 16, 1);
-                anims[s].setColor(4,0,4);
+                anims[s].setColor(64,0,64);
                 break;
             case NoAnimation:
                 anims[s].clear();

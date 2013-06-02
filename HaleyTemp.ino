@@ -6,65 +6,60 @@
 #include "Segment.h"
 #include "AnimationFrame.h"
 
-const byte ledCount = 128;
+const int ledCount = 128;
 const int strandCount = 7;
-const int animationCount = 7;
-int frameCount;
 
-AnimationFrame framesOld[] =
-{
-
-    AnimationFrame(0, AllOff, BitFadeAnimation, 55),
-    AnimationFrame(0, segments[RingTopBackRightInner] |segments[RingTopBackLeftInner] , BitFadeAnimation,55),
-    AnimationFrame(0, segments[RingMiddleBackLeftInner] |segments[RingMiddleBackRightInner] , BitFadeAnimation,55),
-    AnimationFrame(1250, segments[VMiddleBackLeftMiddle] |segments[VMiddleBackRightMiddle] | segments[VMiddleBackLeftLower] | segments[VMiddleBackRightLower], BitFadeAnimation,55),
-
-    
-    AnimationFrame(0, AllOff, BitFadeAnimation, 55),
-    AnimationFrame(2333, segments[VBottomBackRightLower] |segments[VBottomBackLeftLower] | segments[VBottomBackLeftMiddle] | segments[VBottomBackRightMiddle], BitFadeAnimation,55),
-
-
-    AnimationFrame(0, AllOff, BitFadeAnimation, 55),
-    AnimationFrame(0, segments[RingTopBackRightInner] |segments[RingTopBackLeftInner] , BitFadeAnimation,55),
-    AnimationFrame(0, segments[RingMiddleBackLeftInner] |segments[RingMiddleBackRightInner] , BitFadeAnimation,55),
-    AnimationFrame(3417, segments[VMiddleBackLeftMiddle] |segments[VMiddleBackRightMiddle] | segments[VMiddleBackLeftLower] | segments[VMiddleBackRightLower], BitFadeAnimation,55),
-
-    AnimationFrame(0, AllOff, BitFadeAnimation, 55),
-    AnimationFrame(4500, segments[VBottomBackRightLower] |segments[VBottomBackLeftLower] | segments[VBottomBackLeftMiddle] | segments[VBottomBackRightMiddle], BitFadeAnimation,55),
-
-    AnimationFrame(0, AllOff, BitFadeAnimation, 55),
-    AnimationFrame(0, segments[RingTopBackRightInner] |segments[RingTopBackLeftInner] , BitFadeAnimation,55),
-    AnimationFrame(0, segments[RingMiddleBackLeftInner] |segments[RingMiddleBackRightInner] , BitFadeAnimation,55),
-    AnimationFrame(5625, segments[VMiddleBackLeftMiddle] |segments[VMiddleBackRightMiddle] | segments[VMiddleBackLeftLower] | segments[VMiddleBackRightLower], BitFadeAnimation,55),
-    
-    AnimationFrame(0, AllOff, BitFadeAnimation, 55),
-    AnimationFrame(6708, segments[VBottomBackRightLower] |segments[VBottomBackLeftLower] | segments[VBottomBackLeftMiddle] | segments[VBottomBackRightMiddle], BitFadeAnimation,55),
-    
-    AnimationFrame(0, AllOff, BitFadeAnimation, 55),
-    AnimationFrame(7792, segments[VTopLeft] |segments[VTopRight] , BitFadeAnimation,55),
-
-    AnimationFrame(0, AllOn, BitFadeAnimation, 55),
-    AnimationFrame(8875, segments[VMiddleBackLeftUpper] |segments[VMiddleBackRightUpper] , BitFadeAnimation,55),
-
-    AnimationFrame(9950, AllOn, BitFadeAnimation, 55),
-
-};
+//CHSV c = CHSV(214,255,255);
+CHSV c = CHSV(214,255,255);
 
 AnimationFrame frames[] =
 {
-    AnimationFrame(500, segments[VMiddleBackLeftMiddle], BitFadeAnimation, 55),
-    AnimationFrame(10000, segments[VMiddleBackLeftMiddle], BitFadeAnimation, 55),
-    AnimationFrame(20050, AllOn, BitFadeAnimation, 55),
+
+    AnimationFrame(0, AllOff, BitHSVFadeAnimation, c),
+    AnimationFrame(0, segments[RingTopBackRightInner] |segments[RingTopBackLeftInner] , BitHSVFadeAnimation,c),
+    AnimationFrame(1250, segments[VMiddleBackLeftMiddle] |segments[VMiddleBackRightMiddle] | segments[VMiddleBackLeftLower] | segments[VMiddleBackRightLower], BitHSVFadeAnimation,c),
+
+    
+    AnimationFrame(0, AllOff, BitHSVFadeAnimation, c),
+    AnimationFrame(2333, segments[VTopLeft] | segments[VTopRight], BitHSVFadeAnimation,c),
+
+
+    AnimationFrame(0, AllOff, BitHSVFadeAnimation, c),
+    AnimationFrame(0, segments[RingTopBackRightInner] |segments[RingTopBackLeftInner] , BitHSVFadeAnimation,c),
+    AnimationFrame(3417, segments[VMiddleBackLeftMiddle] |segments[VMiddleBackRightMiddle] | segments[VMiddleBackLeftLower] | segments[VMiddleBackRightLower], BitHSVFadeAnimation,c),
+
+    AnimationFrame(0, AllOff, BitHSVFadeAnimation, c),
+    AnimationFrame(4500, segments[VTopLeft] | segments[VTopRight], BitHSVFadeAnimation,c),
+
+    AnimationFrame(0, AllOff, BitHSVFadeAnimation, c),
+    AnimationFrame(0, segments[RingTopBackRightInner] |segments[RingTopBackLeftInner] , BitHSVFadeAnimation,c),
+    AnimationFrame(5625, segments[VMiddleBackLeftMiddle] |segments[VMiddleBackRightMiddle] | segments[VMiddleBackLeftLower] | segments[VMiddleBackRightLower], BitHSVFadeAnimation,c),
+    
+    AnimationFrame(0, AllOff, BitHSVFadeAnimation, c),
+    AnimationFrame(6708, segments[VTopLeft] | segments[VTopRight], BitHSVFadeAnimation,c),
+    
+    AnimationFrame(0, AllOff, BitHSVFadeAnimation, c),
+    AnimationFrame(7792, segments[VTopLeft] |segments[VTopRight] , BitHSVFadeAnimation,c),
+
+    AnimationFrame(0, AllOn, BitHSVFadeAnimation, c),
+    AnimationFrame(8875, segments[VMiddleBackLeftUpper] |segments[VMiddleBackRightUpper] , BitHSVFadeAnimation,c),
+
+    AnimationFrame(9950, AllOn, BitHSVFadeAnimation,c),
+
 };
+
+const constexpr int frameCount = sizeof(frames) / sizeof(frames[0]);
+
 
 
 // this is wasteful because I'm creating a square array and many
 // of my strands are much shorter than ledCount, but this makes it easier for
 // me to initialize and for now I have the space to spare.
 // TODO: change this to a ragged array.
-Animation::CRGB leds[strandCount][ledCount];
+//struct CRGB leds[strandCount][ledCount];
+struct CRGB leds[strandCount][ledCount];
 
-Animation anims[animationCount] =
+Animation anims[] =
 {
     Animation(12, leds[RingTop], ledCount),
     Animation(9, leds[RingMiddle], ledCount),
@@ -74,17 +69,8 @@ Animation anims[animationCount] =
     Animation(16, leds[VBottom], ledCount),
     Animation(19, leds[Vertical], ledCount)
 };
+const constexpr int animationCount = sizeof(anims) / sizeof(anims[0]);
 
-// Setup/define the Led controller with data pin 11, clock pin 13, and latch pin 10
-// this will trigger use of the hardware SPI support on the arduino uno
-//LPD8806Controller<11, 13, 10> LED;
-WS2811Controller800Mhz<12> LED0;    //RingTop
-WS2811Controller800Mhz<9> LED1;     //RingMiddle
-WS2811Controller800Mhz<6> LED2;     //RingMiddle
-WS2811Controller800Mhz<3> LED3;     //VTop
-WS2811Controller800Mhz<13> LED4;    //VMiddle
-WS2811Controller800Mhz<16> LED5;    //VBottom
-WS2811Controller800Mhz<19> LED6;    //Vertical
 
 String inputString = "";         // a string to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
@@ -99,16 +85,23 @@ long timeSpentInShowRGB = 0;
 
 void setup()
 {
-	Serial.begin(38400);
-	LED0.init();
-	LED1.init();
-	LED2.init();
-	LED3.init();
-	LED4.init();
-	LED5.init();
-	LED6.init();
+    delay(1000);
     
-    frameCount = sizeof(frames) / sizeof(frames[0]);
+    // For safety (to prevent too high of a power draw), the test case defaults to
+   	// setting brightness to 25% brightness
+    LEDS.setBrightness(255);
+    
+   	LEDS.addLeds<WS2811,12>(leds[0], ledCount);
+   	LEDS.addLeds<WS2811,9>(leds[1], ledCount);
+   	LEDS.addLeds<WS2811,6>(leds[2], ledCount);
+   	LEDS.addLeds<WS2811,3>(leds[3], ledCount);
+   	LEDS.addLeds<WS2811,13>(leds[4], ledCount);
+   	LEDS.addLeds<WS2811,16>(leds[5], ledCount);
+   	LEDS.addLeds<WS2811,19>(leds[6], ledCount);
+
+
+	Serial.begin(38400);
+
     currentTime = millis();
     
 	pinMode(A0, INPUT);
@@ -140,7 +133,7 @@ long currentSequenceStartTime = 0;
 long nextSequenceStartTime = 0;
 long sequenceInterval = 0;
 
-bool doAnimation = false;
+bool doAnimation = true;
 
 void loop()
 {
@@ -177,7 +170,7 @@ void loop()
     
     // if the current time is after the start of the next sequence
     // then I need to play all of the sequences that have the same time
-    if (doAnimation == true && ((millis()*4) > currentSequenceStartTime + sequenceInterval))
+    if (doAnimation == true && ((millis()) > currentSequenceStartTime + sequenceInterval))
     {
         Serial.print(millis() - currentSequenceStartTime);Serial.print("ms: ");Serial.print(currentStep);Serial.print(":");Serial.println(sequenceInterval);
         AnimationFrame f = frames[currentStep];
@@ -189,11 +182,13 @@ void loop()
         StrandEnum s = f.segment.strand;
         
         
-        //Serial.print(sequenceInterval);Serial.print("|");Serial.print(s);Serial.println();
+        Serial.print("segment ");Serial.print("|");Serial.print(s);Serial.println();
         
         if (AllStrands == s)
         {
             Serial.println("setting all");
+            
+            // todo: right now I'm assuming that each strand it only playing one animation
             for (int i = 0;i < strandCount;i++)
             {
                 anims[i].bitFade(f.segment, 16, 1);
@@ -208,6 +203,9 @@ void loop()
                     anims[s].bitFade(f.segment, 16, 1);
                     anims[s].setColor(64,0,64);
                     break;
+                case BitHSVFadeAnimation:
+                    anims[s].bitHSVFade(f.segment, f.hsvColor, 1);
+                    break;
                 case NoAnimation:
                     anims[s].clear();
                     break;
@@ -220,7 +218,7 @@ void loop()
             currentStep = 0;
             currentSequenceStartTime = millis();
             sequenceInterval = 0;
-            doAnimation = false;
+            //doAnimation = false;
         }
     }
     
@@ -247,13 +245,7 @@ void updateLeds()
     //long tempTime = millis();
     //Serial.print("updateLeds ");Serial.print(millis() - lastLedUpdateTime);
     //lastLedUpdateTime = millis();
-	LED0.showRGB((byte*)leds[RingTop], ledCount);
-	LED1.showRGB((byte*)leds[RingMiddle], ledCount);
-	LED2.showRGB((byte*)leds[RingBottom], ledCount);
-	LED3.showRGB((byte*)leds[VTop], ledCount);
-	LED4.showRGB((byte*)leds[VMiddle], ledCount);
-	LED5.showRGB((byte*)leds[VBottom], ledCount);
-	LED6.showRGB((byte*)leds[Vertical], ledCount);
+    LEDS.show();
     //tempTime = millis();
     //Serial.print(" updatedLeds ");Serial.print(tempTime - lastLedUpdateTime);Serial.println();
     //lastLedUpdateTime = millis();
